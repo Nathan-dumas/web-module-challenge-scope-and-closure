@@ -28,10 +28,16 @@ function processFirstItem(stringList, callback) {
  * 
  * 1. What is the difference between counter1 and counter2?
  * 
+ *  counter1 is a variable and has a nested function, and a variable inside of the function.
+ * 
  * 2. Which of the two uses a closure? How can you tell?
+ * 
+ *  counter1 uses a closure. I can tell from the function within the function.
  * 
  * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better? 
  *
+ *  counter2 could be more useful when you don't want the counter to reset every time you call the function,
+ *  where as with counter1 it will be.
 */
 
 // counter1 code
@@ -76,16 +82,16 @@ finalScore(inning, 9) might return:
 
 */
 
-function finalScore(num) {
+function finalScore(cb, num) {
   let home = 0;
   let away = 0;
   for (let i = 0; i < num; i++) {
-    home = home + inning(); away = away + inning();
+    home = home + cb(); away = away + cb();
   }
   return { "Home": home, "Away": away }
 }
 
-console.log(finalScore(9));
+console.log(finalScore(inning, 9));
 
 /* Task 4: 
 
@@ -122,8 +128,7 @@ function scoreboard(cb1, cb2, num) {
     home = home + current.home;
     away = away + current.away;
     scorePerInning.push(`Inning ${i + 1}: Away ${current.away} - Home ${current.home}`);
-  }
-  if (home === away) {
+  } if (home === away) {
     scorePerInning.push('Tie!');
   } else {
     scorePerInning.push(`Final score is away ${away}, home ${home}`)
