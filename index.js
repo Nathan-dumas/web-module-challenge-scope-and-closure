@@ -38,7 +38,7 @@ function processFirstItem(stringList, callback) {
 function counterMaker() {
   let count = 0;
   return function counter() {
-   return count++;
+    return count++;
   }
 }
 
@@ -56,11 +56,11 @@ function counter2() {
 
 Write a function called `inning` that returns a random number of points that a team scored in an inning. This should be a whole number between 0 and 2. */
 
-function inning(/*Code Here*/){
-
-    /*Code Here*/
-
+function inning(/*Code Here*/) {
+  return Math.floor(Math.random() * Math.floor(3));
 }
+
+console.log(inning());
 
 /* Task 3: finalScore()
 
@@ -74,13 +74,18 @@ finalScore(inning, 9) might return:
   "Away": 5,
 }
 
-*/ 
+*/
 
-function finalScore(/*code Here*/){
-
-  /*Code Here*/
-
+function finalScore(num) {
+  let home = 0;
+  let away = 0;
+  for (let i = 0; i < num; i++) {
+    home = home + inning(); away = away + inning();
+  }
+  return { "Home": home, "Away": away }
 }
+
+console.log(finalScore(9));
 
 /* Task 4: 
 
@@ -101,10 +106,31 @@ and returns the score at each pont in the game, like so:
 8th inning: awayTeam - homeTeam
 9th inning: awayTeam - homeTeam
 Final Score: awayTeam - homeTeam */
+const getInningScore = function () {
+  return {
+    home: inning(),
+    away: inning()
+  }
+};
 
-
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(cb1, cb2, num) {
+  let scorePerInning = [];
+  let home = 0;
+  let away = 0;
+  for (let i = 0; i < num; i++) {
+    const current = cb1(cb2);
+    home = home + current.home;
+    away = away + current.away;
+    scorePerInning.push(`Inning ${i + 1}: Away ${current.away} - Home ${current.home}`);
+  }
+  if (home === away) {
+    scorePerInning.push('Tie!');
+  } else {
+    scorePerInning.push(`Final score is away ${away}, home ${home}`)
+  };
+  return scorePerInning;
 }
+
+console.log(scoreboard(getInningScore, inning, 9));
 
 
